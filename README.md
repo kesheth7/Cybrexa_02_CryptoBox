@@ -41,3 +41,34 @@ CryptoBox/
 ## Security Best Practices Demonstrated
 - **No Cleartext Storing**: Evaluated passwords are never transmitted to any server. History is stored purely in the client's local browser using standard masking techniques.
 - **GPU Cracking Model**: Crack times are calculated based on modern offline hashing speeds, illustrating real-world hazards.
+
+
+# 📸 Screenshots
+
+## 🔐 Password Checker
+
+![Password Checker](screenshots/checker.png)
+
+---
+
+## ⚡ Password Generator
+
+![Password Generator](screenshots/generator.png)
+
+---
+
+## 📜 Password History
+
+![Password History](screenshots/history.png)
+
+---
+
+## 🛡️ Security Analysis
+
+![Security Analysis](screenshots/security.png)
+
+---
+
+## 📱 Mobile View
+
+![Mobile View](screenshots/mobile.png)
