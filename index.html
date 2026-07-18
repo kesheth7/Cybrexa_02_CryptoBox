@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoBox – Password Strength Checker & Generator</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="CryptoBox is a modern, production-grade cybersecurity tool to evaluate password strength, analyze vulnerabilities, calculate crack times, and generate strong keys.">
+    <meta name="keywords" content="password strength checker, password generator, password security, cybersecurity portfolio, entropy calculator, hash crack time">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header>
+            <div class="logo">
+                <div class="logo-icon-wrapper">
+                    <i class="fa-solid fa-box-open"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>CryptoBox</h1>
+                    <span>Security Suite</span>
+                </div>
+            </div>
+            
+            <div class="nav-controls">
+                <!-- Navigation Tabs -->
+                <nav class="nav-tabs" role="tablist">
+                    <button class="tab-btn active" data-tab="checker" role="tab" aria-selected="true" aria-controls="checker-view" id="tab-checker">
+                        <i class="fa-solid fa-shield-halved"></i> Checker
+                    </button>
+                    <button class="tab-btn" data-tab="generator" role="tab" aria-selected="false" aria-controls="generator-view" id="tab-generator">
+                        <i class="fa-solid fa-key"></i> Generator
+                    </button>
+                    <button class="tab-btn" data-tab="history" role="tab" aria-selected="false" aria-controls="history-view" id="tab-history">
+                        <i class="fa-solid fa-clock-rotate-left"></i> History
+                    </button>
+                    <button class="tab-btn" data-tab="tips" role="tab" aria-selected="false" aria-controls="tips-view" id="tab-tips">
+                        <i class="fa-solid fa-circle-info"></i> Security Center
+                    </button>
+                </nav>
+                
+                <!-- Theme Toggle Button -->
+                <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle visual theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+            
+            <!-- VIEW 1: PASSWORD STRENGTH CHECKER -->
+            <section id="checker-view" class="tab-view active" role="tabpanel" aria-labelledby="tab-checker">
+                <div class="dashboard-grid">
+                    
+                    <!-- Left: Checker Panel -->
+                    <div class="dashboard-left">
+                        <div class="glass-card">
+                            <h2 class="card-title">
+                                <i class="fa-solid fa-terminal"></i> Real-time Vulnerability Assessment
+                            </h2>
+                            
+                            <div class="input-section">
+                                <label for="main-password-input" class="visually-hidden" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;">Analyze Password</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-lock input-icon-left"></i>
+                                    <input 
+                                        type="password" 
+                                        id="main-password-input" 
+                                        class="password-input" 
+                                        placeholder="Enter password to scan..."
+                                        autocomplete="off"
+                                        spellcheck="false"
+                                    >
+                                    <button class="toggle-password-btn" id="toggle-pwd-visibility" aria-label="Toggle password visibility">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Common password Warning banner -->
+                                <div class="common-password-warning" id="warning-banner">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    <div>
+                                        <span>CRITICAL THREAT DETECTED:</span> This is a extremely common dictionary password. It will be cracked instantly!
+                                    </div>
+                                </div>
+                                
+                                <!-- Real-time Strength Slider Bar -->
+                                <div class="strength-bar-container">
+                                    <div class="strength-bar-meta">
+                                        <span class="strength-label-text">Strength Index:</span>
+                                        <span class="strength-rating-text" id="strength-rating-label">EMPTY</span>
+                                    </div>
+                                    <div class="strength-bar-bg">
+                                        <div class="strength-bar-fill" id="strength-bar-indicator"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recommendations Box -->
+                        <div class="glass-card recommendations-section" id="recommendations-box">
+                            <h3 class="rec-title">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Security Recommendations
+                            </h3>
+                            <div class="rec-list" id="rec-list-container">
+                                <div class="rec-item success">
+                                    <i class="fa-solid fa-circle-check"></i> Ready to scan password. Enter a value in the input field above to analyze its strength.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right: Statistics Display -->
+                    <div class="dashboard-right">
+                        <div class="glass-card requirements-card">
+                            <div class="gauge-section">
+                                <div class="circular-gauge">
+                                    <svg viewBox="0 0 160 160">
+                                        <circle class="gauge-track" cx="80" cy="80" r="70"></circle>
+                                        <circle class="gauge-fill" id="circular-score-ring" cx="80" cy="80" r="70" stroke="var(--accent-primary)"></circle>
+                                    </svg>
+                                    <div class="gauge-content">
+                                        <span class="gauge-score" id="numerical-score">0</span>
+                                        <span class="gauge-label">SCORE</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="stats-grid">
+                                <div class="stat-box">
+                                    <span class="stat-box-title">Password Length</span>
+                                    <span class="stat-box-value" id="stat-length">0 chars</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-box-title">Character Pool</span>
+                                    <span class="stat-box-value" id="stat-variety">0 classes</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-box-title">Shannon Entropy</span>
+                                    <span class="stat-box-value entropy" id="stat-entropy">0.00 bits</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-box-title">Time to Crack</span>
+                                    <span class="stat-box-value crack-time" id="stat-crack">Instant</span>
+                                </div>
+                            </div>
+
+                            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05); margin: 20px 0;">
+
+                            <ul class="checklist" id="rules-checklist">
+                                <li class="checklist-item" id="rule-length">
+                                    <span class="checklist-icon"><i class="fa-solid fa-circle"></i></span>
+                                    At least 12 characters
+                                </li>
+                                <li class="checklist-item" id="rule-upper">
+                                    <span class="checklist-icon"><i class="fa-solid fa-circle"></i></span>
+                                    Uppercase letters (A-Z)
+                                </li>
+                                <li class="checklist-item" id="rule-lower">
+                                    <span class="checklist-icon"><i class="fa-solid fa-circle"></i></span>
+                                    Lowercase letters (a-z)
+                                </li>
+                                <li class="checklist-item" id="rule-number">
+                                    <span class="checklist-icon"><i class="fa-solid fa-circle"></i></span>
+                                    Numeric digits (0-9)
+                                </li>
+                                <li class="checklist-item" id="rule-symbol">
+                                    <span class="checklist-icon"><i class="fa-solid fa-circle"></i></span>
+                                    Special symbols (!@#...)
+                                </li>
+                                <li class="checklist-item" id="rule-repeats">
+                                    <span class="checklist-icon"><i class="fa-solid fa-circle"></i></span>
+                                    No repeating characters (aaa...)
+                                </li>
+                                <li class="checklist-item" id="rule-sequences">
+                                    <span class="checklist-icon"><i class="fa-solid fa-circle"></i></span>
+                                    No keyboard/alphabet sequences
+                                </li>
+                                <li class="checklist-item" id="rule-common">
+                                    <span class="checklist-icon"><i class="fa-solid fa-circle"></i></span>
+                                    Not in dictionary blacklist
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- VIEW 2: PASSWORD GENERATOR -->
+            <section id="generator-view" class="tab-view" role="tabpanel" aria-labelledby="tab-generator">
+                <div class="glass-card generator-card">
+                    <h2 class="card-title">
+                        <i class="fa-solid fa-sliders"></i> Cryptographic Key Generator
+                    </h2>
+                    
+                    <!-- Generated Password display box -->
+                    <div class="output-container">
+                        <div class="output-value-wrapper">
+                            <span class="generated-password placeholder" id="gen-password-display">Click Generate below...</span>
+                        </div>
+                        <div class="output-actions">
+                            <button class="icon-btn" id="copy-generated-btn" title="Copy to clipboard" aria-label="Copy generated password to clipboard">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                            <button class="icon-btn" id="refresh-generator-btn" title="Re-generate" aria-label="Re-generate password with current options">
+                                <i class="fa-solid fa-rotate"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Pre-generation strength assessment -->
+                    <div class="gen-strength-preview" id="gen-strength-banner">
+                        <span class="gen-strength-title">Estimated Generated Strength:</span>
+                        <span class="gen-strength-label" id="gen-strength-label" style="color: var(--text-muted);">NOT CALCULATED</span>
+                    </div>
+                    
+                    <!-- Slider and Checkboxes -->
+                    <div class="generator-options">
+                        <div class="option-row-slider">
+                            <div class="slider-header">
+                                <span>Password Length:</span>
+                                <span class="slider-val" id="len-slider-value">16</span>
+                            </div>
+                            <div class="slider-input-wrapper">
+                                <input type="range" id="generator-len-slider" min="8" max="32" value="16" class="range-slider">
+                            </div>
+                        </div>
+                        
+                        <div class="checkbox-grid">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="gen-opt-uppercase" checked>
+                                <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                <span>Include Uppercase (A-Z)</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="gen-opt-lowercase" checked>
+                                <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                <span>Include Lowercase (a-z)</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="gen-opt-numbers" checked>
+                                <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                <span>Include Numbers (0-9)</span>
+                            </label>
+                            
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="gen-opt-symbols" checked>
+                                <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                <span>Include Symbols (!@#$)</span>
+                            </label>
+                            
+                            <label class="checkbox-label" style="grid-column: span 2;">
+                                <input type="checkbox" id="gen-opt-exclude-similar">
+                                <span class="custom-checkbox"><i class="fa-solid fa-check"></i></span>
+                                <span>Exclude Similar Characters (e.g. i, l, 1, L, o, 0, O)</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button class="primary-btn" id="trigger-generation-btn">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Secure Password
+                    </button>
+                </div>
+            </section>
+            
+            <!-- VIEW 3: PASSWORD SCAN HISTORY -->
+            <section id="history-view" class="tab-view" role="tabpanel" aria-labelledby="tab-history">
+                <div class="glass-card">
+                    <div class="history-header">
+                        <h2 class="card-title">
+                            <i class="fa-solid fa-database"></i> Scan Log & Audit History
+                        </h2>
+                        <button class="clear-btn" id="clear-history-btn">
+                            <i class="fa-solid fa-trash-can"></i> Clear Scan Log
+                        </button>
+                    </div>
+                    
+                    <!-- History list container -->
+                    <div class="history-list-wrapper">
+                        <div id="history-items-container">
+                            <!-- JS populated list -->
+                            <div class="history-empty">
+                                <i class="fa-solid fa-inbox"></i>
+                                <p>No password history recorded. Scan passwords on the Checker tab to save results.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- VIEW 4: SECURITY TIPS & FACTS -->
+            <section id="tips-view" class="tab-view" role="tabpanel" aria-labelledby="tab-tips">
+                <div class="security-tips-container">
+                    
+                    <!-- Best practices -->
+                    <div class="glass-card tips-card">
+                        <h2 class="card-title">
+                            <i class="fa-solid fa-circle-check"></i> Password Best Practices
+                        </h2>
+                        
+                        <div class="tips-list">
+                            <div class="tip-card-item">
+                                <div class="tip-number">1</div>
+                                <div class="tip-text-content">
+                                    <h4>Use at least 12-16 characters</h4>
+                                    <p>Length is the single most important factor in password entropy. Each additional character increases combinations exponentially.</p>
+                                </div>
+                            </div>
+                            <div class="tip-card-item">
+                                <div class="tip-number">2</div>
+                                <div class="tip-text-content">
+                                    <h4>Mix Character Classes</h4>
+                                    <p>Ensure your password blends uppercase, lowercase, numbers, and symbols to enlarge the key space (range pool) of potential crack combinations.</p>
+                                </div>
+                            </div>
+                            <div class="tip-card-item">
+                                <div class="tip-number">3</div>
+                                <div class="tip-text-content">
+                                    <h4>Avoid Common Patterns</h4>
+                                    <p>Do not use sequential letters or numbers (e.g. <code>abcde</code>, <code>12345</code>) or adjacent keyboard rows (e.g. <code>qwerty</code>), as dictionary attacks guess these first.</p>
+                                </div>
+                            </div>
+                            <div class="tip-card-item">
+                                <div class="tip-number">4</div>
+                                <div class="tip-text-content">
+                                    <h4>Never Reuse Passwords</h4>
+                                    <p>If a service experiences a breach, attackers will use credential stuffing to test those passwords across other websites. Use unique passwords for every site.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Security Facts Widget -->
+                    <div class="glass-card tips-card" style="display: flex; flex-direction: column; gap: 20px;">
+                        <div>
+                            <h2 class="card-title">
+                                <i class="fa-solid fa-brain"></i> Cyber Threat Intel
+                            </h2>
+                            <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 15px;">
+                                Expand your cybersecurity knowledge base with facts about authentication, cryptography, and modern hacking methodologies.
+                            </p>
+                            
+                            <div class="facts-banner">
+                                <div class="facts-header">
+                                    <span>Intelligence Feed</span>
+                                    <i class="fa-solid fa-tower-broadcast"></i>
+                                </div>
+                                <div class="fact-text" id="rotating-fact-content">
+                                    Loading live intelligence facts...
+                                </div>
+                                <button class="fact-refresh-btn" id="refresh-fact-btn">
+                                    <i class="fa-solid fa-arrows-rotate"></i> Next Fact
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Shortcuts Box -->
+                        <div class="shortcuts-help">
+                            <h3 class="shortcuts-title">System Hotkeys</h3>
+                            <div class="shortcuts-list">
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl</kbd> + <kbd>G</kbd>
+                                    <span>Generate Key</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd>
+                                    <span>Clear inputs</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Tab</kbd>
+                                    <span>Navigate Fields</span>
+                                </div>
+                                <div class="shortcut-item">
+                                    <kbd>Esc</kbd>
+                                    <span>Dismiss Warns</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+
+        <!-- TOAST NOTIFICATION STACK -->
+        <div class="toast-container" id="toast-wrapper">
+            <!-- Dynamic toasts will inject here -->
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p>&copy; 2026 CryptoBox Security Suite. Built for professional cybersecurity assessment.</p>
+                    <div class="footer-tech">
+                        <span>Developed by Swarnachandran Kesheth</span>
+                        
+                    </div>
+                </div>
+                <div class="footer-right">
+                    
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Script Entry -->
+    <script src="script.js"></script>
+</body>
+</html>
